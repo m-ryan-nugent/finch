@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: finch-backend
+  namespace: finch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: finch-backend
+  template:
+    metadata:
+      labels:
+        app: finch-backend
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/m-ryan-nugent/finch-backend:v0.1.0
+          ports:
+            - containerPort: 8000
+          env:
+            - name: POSTGRES_HOST
+              value: finch-postgres
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DB
+              value: finch
+            - name: POSTGRES_USER
+              value: finch
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: finch-secrets
+                  key: POSTGRES_PASSWORD
+            - name: APP_ENV
+              value: production
+          resources:
+            requests:
+              memory: 64Mi
+              cpu: 50m
+            limits:
+              memory: 256Mi
+              cpu: 250m
+          livenessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /api/v1/health/ready
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: finch-backend
+  namespace: finch
+spec:
+  selector:
+    app: finch-backend
+  ports:
+    - port: 8000
+      targetPort: 8000

@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: finch-migrate-
+  namespace: finch
+  labels:
+    app: finch-migrate
+spec:
+  ttlSecondsAfterFinished: 120
+  backoffLimit: 3
+  template:
+    metadata:
+      labels:
+        app: finch-migrate
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: migrate
+          image: ghcr.io/m-ryan-nugent/finch-backend:v0.1.0
+          command: ["uv", "run", "alembic", "upgrade", "head"]
+          env:
+            - name: POSTGRES_HOST
+              value: finch-postgres
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DB
+              value: finch
+            - name: POSTGRES_USER
+              value: finch
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: finch-secrets
+                  key: POSTGRES_PASSWORD
