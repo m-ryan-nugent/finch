@@ -100,13 +100,13 @@ export default function Budgets() {
                 <th className="px-5 py-3 text-right text-xs font-medium text-gray-500 uppercase">
                   Budget
                 </th>
-                <th className="px-5 py-3 text-right text-xs font-medium text-gray-500 uppercase">
+                <th className="px-5 py-3 text-right text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">
                   Actual
                 </th>
-                <th className="px-5 py-3 text-right text-xs font-medium text-gray-500 uppercase">
+                <th className="px-5 py-3 text-right text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">
                   Remaining
                 </th>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase min-w-[150px]">
+                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase min-w-[100px] sm:min-w-[150px]">
                   Progress
                 </th>
                 <th className="px-5 py-3 text-right text-xs font-medium text-gray-500 uppercase">
@@ -130,11 +130,11 @@ export default function Budgets() {
                     <td className="px-5 py-3 text-sm text-right text-gray-900">
                       {formatCurrency(budget.amount)}
                     </td>
-                    <td className="px-5 py-3 text-sm text-right text-gray-900">
+                    <td className="px-5 py-3 text-sm text-right text-gray-900 hidden sm:table-cell">
                       {formatCurrency(budget.actual_spent)}
                     </td>
                     <td
-                      className={`px-5 py-3 text-sm text-right font-medium ${
+                      className={`px-5 py-3 text-sm text-right font-medium hidden sm:table-cell ${
                         isOver ? 'text-red-600' : 'text-gray-900'
                       }`}
                     >

@@ -2,14 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  overscroll-behavior: none;
+}
+
 body {
   @apply bg-gray-50 text-gray-900;
+  -webkit-tap-highlight-color: transparent;
 }
 
 input,
 select,
 textarea {
   min-width: 0;
+}
+
+@media (max-width: 639px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .main-content {
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 input[type='date'] {

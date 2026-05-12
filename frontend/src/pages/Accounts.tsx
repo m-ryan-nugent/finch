@@ -61,7 +61,7 @@ export default function Accounts() {
       />
 
       {data && (
-        <div className="grid grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
           <Card>
             <p className="text-xs font-medium text-gray-500">Total Assets</p>
             <p className="text-lg font-semibold text-gray-900 mt-1">

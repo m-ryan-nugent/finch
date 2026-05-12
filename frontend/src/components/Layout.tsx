@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -55,6 +55,10 @@ export default function Layout({ children }: { children: ReactNode }) {
   const location = useLocation();
   const isMoreActive = mobileMoreItems.some((item) => item.path === location.pathname);
 
+  useEffect(() => {
+    setMoreOpen(false);
+  }, [location.pathname]);
+
   return (
     <div className="min-h-screen">
       {/* Desktop Sidebar */}
@@ -71,20 +75,20 @@ export default function Layout({ children }: { children: ReactNode }) {
       </nav>
 
       {/* Main Content */}
-      <main className="md:ml-56 pb-20 md:pb-0 min-h-screen">
+      <main className="main-content md:ml-56 md:pb-0 min-h-screen">
         <div className="max-w-6xl mx-auto px-4 py-6 sm:px-6">{children}</div>
       </main>
 
       {/* Mobile Bottom Tab Bar */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 z-30">
-        <div className="flex items-center justify-around h-16">
+      <nav className="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 z-30" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+        <div className="flex items-center justify-around h-14">
           {mobileMainItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
               end={item.path === '/'}
               className={({ isActive }) =>
-                `flex flex-col items-center gap-0.5 text-xs ${
+                `flex flex-col items-center justify-center gap-0.5 text-xs min-w-[44px] min-h-[44px] ${
                   isActive ? 'text-teal-600' : 'text-gray-500'
                 }`
               }
@@ -95,7 +99,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           ))}
           <button
             onClick={() => setMoreOpen(!moreOpen)}
-            className={`flex flex-col items-center gap-0.5 text-xs ${
+            className={`flex flex-col items-center justify-center gap-0.5 text-xs min-w-[44px] min-h-[44px] ${
               isMoreActive || moreOpen ? 'text-teal-600' : 'text-gray-500'
             }`}
           >
@@ -113,7 +117,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 to={item.path}
                 onClick={() => setMoreOpen(false)}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-5 py-3 text-sm font-medium ${
+                  `flex items-center gap-3 px-5 py-4 text-sm font-medium ${
                     isActive
                       ? 'bg-teal-50 text-teal-700'
                       : 'text-gray-600 hover:bg-gray-50'
