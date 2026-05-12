@@ -68,13 +68,15 @@ export default function Budgets() {
       <PageHeader
         title="Budgets"
         action={
-          <div className="flex items-center gap-3">
+          <div className="flex w-full flex-wrap items-center justify-between gap-2 sm:w-auto sm:justify-end sm:gap-3">
             <MonthSelector
               month={month}
               year={year}
               onChange={(m, y) => { setMonth(m); setYear(y); }}
             />
-            <Button onClick={() => setAddOpen(true)}>Add Budget</Button>
+            <Button onClick={() => setAddOpen(true)} className="shrink-0">
+              Add Budget
+            </Button>
           </div>
         }
       />

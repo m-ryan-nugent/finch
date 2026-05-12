@@ -5,3 +5,15 @@
 body {
   @apply bg-gray-50 text-gray-900;
 }
+
+input,
+select,
+textarea {
+  min-width: 0;
+}
+
+input[type='date'] {
+  max-width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+}

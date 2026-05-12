@@ -418,12 +418,12 @@ function TransactionModal({
       maxWidth="lg"
     >
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
+        <div className="grid grid-cols-2 gap-x-3 sm:gap-x-4">
           <FormField label="Date" error={errors.date?.message}>
             <input
               type="date"
               {...register('date', { required: 'Date is required' })}
-              className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
+              className="block h-10 w-full min-w-0 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
             />
           </FormField>
 
@@ -435,7 +435,7 @@ function TransactionModal({
                 validate: (v) => parseFloat(v) > 0 || 'Must be greater than 0',
               })}
               placeholder="0.00"
-              className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
+              className="block h-10 w-full min-w-0 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
             />
           </FormField>
 
@@ -491,7 +491,7 @@ function TransactionModal({
             {...register('description', {
               maxLength: { value: 200, message: 'Max 200 characters' },
             })}
-            className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
+            className="block h-10 w-full min-w-0 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
             placeholder="What was this for?"
           />
         </FormField>
@@ -500,7 +500,7 @@ function TransactionModal({
           <textarea
             {...register('notes')}
             rows={2}
-            className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
+            className="block w-full min-w-0 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
           />
         </FormField>
 

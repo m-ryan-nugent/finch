@@ -89,7 +89,7 @@ export default function Recurring() {
       <PageHeader
         title="Recurring Items"
         action={
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-end gap-2">
             <Button
               variant="secondary"
               onClick={handleGenerateAll}
@@ -279,14 +279,14 @@ function RecurringModal({
       maxWidth="lg"
     >
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
+        <div className="grid grid-cols-2 gap-x-3 sm:gap-x-4">
           <FormField label="Name" error={errors.name?.message}>
             <input
               {...register('name', {
                 required: 'Name is required',
                 maxLength: { value: 100, message: 'Max 100 characters' },
               })}
-              className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
+              className="block h-10 w-full min-w-0 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
             />
           </FormField>
 
@@ -298,7 +298,7 @@ function RecurringModal({
                 validate: (v) => parseFloat(v) > 0 || 'Must be greater than 0',
               })}
               placeholder="0.00"
-              className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
+              className="block h-10 w-full min-w-0 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
             />
           </FormField>
 
@@ -313,7 +313,7 @@ function RecurringModal({
             <input
               type="date"
               {...register('next_due_date', { required: 'Required' })}
-              className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
+              className="block h-10 w-full min-w-0 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
             />
           </FormField>
 
@@ -348,7 +348,7 @@ function RecurringModal({
           <textarea
             {...register('notes')}
             rows={2}
-            className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
+            className="block w-full min-w-0 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
           />
         </FormField>
 

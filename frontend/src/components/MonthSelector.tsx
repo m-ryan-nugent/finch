@@ -25,14 +25,14 @@ export default function MonthSelector({ month, year, onChange }: MonthSelectorPr
   };
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex min-w-0 items-center gap-1 sm:gap-3">
       <button
         onClick={prev}
         className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 transition-colors"
       >
         <ChevronLeft className="h-5 w-5" />
       </button>
-      <span className="text-sm font-medium text-gray-900 min-w-[140px] text-center">
+      <span className="min-w-[96px] text-center text-sm font-medium text-gray-900 sm:min-w-[140px]">
         {monthName(month, year)}
       </span>
       <button
