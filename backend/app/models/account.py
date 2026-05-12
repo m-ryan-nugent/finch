@@ -28,6 +28,7 @@ class Account(Base):
         ),
     )
     balance: Mapped[Decimal] = mapped_column(Numeric(12, 2), default=Decimal("0.00"))
+    credit_limit: Mapped[Decimal | None] = mapped_column(Numeric(12, 2), nullable=True)
     institution: Mapped[str | None] = mapped_column(String(100), nullable=True)
     notes: Mapped[str | None] = mapped_column(Text, nullable=True)
 

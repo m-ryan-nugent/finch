@@ -24,6 +24,7 @@ class AccountBase(BaseModel):
 
 class AccountCreate(AccountBase):
     balance: Decimal = Field(default=Decimal("0.00"), max_digits=12, decimal_places=2)
+    credit_limit: Decimal | None = Field(default=None, ge=0, max_digits=12, decimal_places=2)
 
 
 class AccountUpdate(BaseModel):
@@ -34,11 +35,13 @@ class AccountUpdate(BaseModel):
     institution: str | None = None
     notes: str | None = None
     balance: Decimal | None = Field(default=None, max_digits=12, decimal_places=2)
+    credit_limit: Decimal | None = Field(default=None, ge=0, max_digits=12, decimal_places=2)
 
 
 class AccountResponse(AccountBase):
     id: int
     balance: Decimal
+    credit_limit: Decimal | None
     created_at: datetime
     updated_at: datetime
 

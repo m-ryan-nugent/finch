@@ -87,8 +87,15 @@ async def adjust_balance(
 
     Used by the transaction service when creating/updating/deleting transactions
     to keep account balances in sync.
+
+    Liability accounts (credit card, loan) store balance as the amount owed, so
+    the direction is flipped: "adding money" (e.g. a payment) reduces the balance,
+    and "spending" (e.g. a purchase) increases it.
     """
     account = await get_account(db, account_id)
+    is_liability = AccountType(account.type) in LIABILITY_ACCOUNT_TYPES
+    if is_liability:
+        add = not add
     if add:
         account.balance += amount
     else:

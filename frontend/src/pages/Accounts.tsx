@@ -139,7 +139,11 @@ export default function Accounts() {
         onSubmit={async (formData) => {
           try {
             if (editing) {
-              await updateMutation.mutateAsync({ id: editing.id, data: formData });
+              const payload = {
+                ...formData,
+                credit_limit: formData.credit_limit === '' ? null : formData.credit_limit,
+              };
+              await updateMutation.mutateAsync({ id: editing.id, data: payload });
               toast.success('Account updated');
             } else {
               await createMutation.mutateAsync(formData);
@@ -174,6 +178,12 @@ function AccountCard({
   onEdit: () => void;
   onDelete: () => void;
 }) {
+  const isCreditCard = account.type === 'credit_card';
+  const hasLimit = isCreditCard && account.credit_limit != null;
+  const utilization = hasLimit
+    ? Math.min(100, (parseFloat(account.balance) / parseFloat(account.credit_limit!)) * 100)
+    : null;
+
   return (
     <Card>
       <div className="flex items-start justify-between">
@@ -188,6 +198,22 @@ function AccountCard({
       <p className="text-xl font-semibold text-gray-900 mt-3">
         {formatCurrency(account.balance)}
       </p>
+      {hasLimit && (
+        <div className="mt-2">
+          <div className="flex justify-between text-xs text-gray-500 mb-1">
+            <span>{utilization!.toFixed(0)}% used</span>
+            <span>Limit: {formatCurrency(account.credit_limit!)}</span>
+          </div>
+          <div className="w-full bg-gray-100 rounded-full h-1.5">
+            <div
+              className={`h-1.5 rounded-full ${
+                utilization! >= 90 ? 'bg-red-500' : utilization! >= 70 ? 'bg-yellow-500' : 'bg-teal-500'
+              }`}
+              style={{ width: `${utilization}%` }}
+            />
+          </div>
+        </div>
+      )}
       <div className="flex gap-2 mt-4">
         <Button variant="ghost" size="sm" onClick={onEdit}>
           Edit
@@ -216,6 +242,7 @@ function AccountModal({
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
     reset,
   } = useForm<AccountCreate>();
@@ -228,13 +255,16 @@ function AccountModal({
               name: account.name,
               type: account.type,
               balance: account.balance,
+              credit_limit: account.credit_limit ?? '',
               institution: account.institution ?? '',
               notes: account.notes ?? '',
             }
-          : { name: '', type: 'checking', balance: '0.00', institution: '', notes: '' },
+          : { name: '', type: 'checking', balance: '0.00', credit_limit: '', institution: '', notes: '' },
       );
     }
   }, [isOpen, account, reset]);
+
+  const accountType = watch('type');
 
   return (
     <Modal
@@ -269,6 +299,19 @@ function AccountModal({
             className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
           />
         </FormField>
+
+        {accountType === 'credit_card' && (
+          <FormField label="Credit Limit" error={errors.credit_limit?.message}>
+            <input
+              {...register('credit_limit', {
+                pattern: { value: /^\d+(\.\d{1,2})?$/, message: 'Invalid amount' },
+                validate: (v) => !v || parseFloat(v) > 0 || 'Must be greater than 0',
+              })}
+              placeholder="e.g. 5000.00"
+              className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
+            />
+          </FormField>
+        )}
 
         <FormField label="Institution">
           <input

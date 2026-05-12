@@ -5,6 +5,7 @@ export interface Account {
   name: string;
   type: AccountType;
   balance: string;
+  credit_limit: string | null;
   institution: string | null;
   notes: string | null;
   created_at: string;
@@ -22,6 +23,7 @@ export interface AccountCreate {
   name: string;
   type: AccountType;
   balance?: string;
+  credit_limit?: string | null;
   institution?: string | null;
   notes?: string | null;
 }
@@ -30,6 +32,7 @@ export interface AccountUpdate {
   name?: string;
   type?: AccountType;
   balance?: string;
+  credit_limit?: string | null;
   institution?: string | null;
   notes?: string | null;
 }
