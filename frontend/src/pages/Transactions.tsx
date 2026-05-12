@@ -90,7 +90,7 @@ export default function Transactions() {
 
       {/* Filter Bar */}
       <div className="bg-white rounded-lg border border-gray-200 p-4 mb-4">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 [&>*]:min-w-0">
           <Select
             value={filters.account_id ?? ''}
             onChange={(e) => {
@@ -120,24 +120,26 @@ export default function Transactions() {
           />
           <input
             type="date"
+            aria-label="From date"
             value={filters.date_from ?? ''}
             onChange={(e) => {
               setFilters((f) => ({ ...f, date_from: e.target.value || undefined }));
               setOffset(0);
             }}
-            className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
+            className="block h-10 min-w-0 w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
             placeholder="From"
           />
           <input
             type="date"
+            aria-label="To date"
             value={filters.date_to ?? ''}
             onChange={(e) => {
               setFilters((f) => ({ ...f, date_to: e.target.value || undefined }));
               setOffset(0);
             }}
-            className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
+            className="block h-10 min-w-0 w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none"
           />
-          <div className="flex items-center gap-2">
+          <div className="flex min-w-0 items-center">
             <Select
               value={filters.is_pending == null ? '' : String(filters.is_pending)}
               onChange={(e) => {
