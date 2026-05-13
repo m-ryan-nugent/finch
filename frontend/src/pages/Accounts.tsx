@@ -138,15 +138,15 @@ export default function Accounts() {
         account={editing}
         onSubmit={async (formData) => {
           try {
+            const payload = {
+              ...formData,
+              credit_limit: formData.credit_limit === '' ? null : formData.credit_limit,
+            };
             if (editing) {
-              const payload = {
-                ...formData,
-                credit_limit: formData.credit_limit === '' ? null : formData.credit_limit,
-              };
               await updateMutation.mutateAsync({ id: editing.id, data: payload });
               toast.success('Account updated');
             } else {
-              await createMutation.mutateAsync(formData);
+              await createMutation.mutateAsync(payload);
               toast.success('Account created');
             }
             setModalOpen(false);
