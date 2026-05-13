@@ -62,6 +62,7 @@ async def update_recurring_item(
         setattr(item, field, value)
 
     await db.flush()
+    await db.refresh(item)
     return item
 
 

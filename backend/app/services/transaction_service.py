@@ -140,6 +140,7 @@ async def update_transaction(
 
     # Step 3: apply new balance effects
     await _apply_balance_effects(db, transaction)
+    await db.refresh(transaction)
     return transaction
 
 

@@ -58,6 +58,10 @@ async def update_account(db: AsyncSession, account_id: int, data: AccountUpdate)
         setattr(account, field, value)
 
     await db.flush()
+    # Refresh to load server-generated fields (e.g., updated_at) before serialization.
+    # Without this, Pydantic's response validation tries to lazy-load these fields,
+    # which fails in the async serialization context.
+    await db.refresh(account)
     return account
 
 

@@ -102,6 +102,7 @@ async def update_budget(db: AsyncSession, budget_id: int, data: BudgetUpdate) ->
     for field, value in update_data.items():
         setattr(budget, field, value)
     await db.flush()
+    await db.refresh(budget)
     return budget
 
 
