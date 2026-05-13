@@ -3,7 +3,7 @@
 from decimal import Decimal
 
 from fastapi import HTTPException, status
-from sqlalchemy import select
+from sqlalchemy import or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.account import Account
@@ -64,11 +64,19 @@ async def update_account(db: AsyncSession, account_id: int, data: AccountUpdate)
 async def delete_account(db: AsyncSession, account_id: int) -> None:
     account = await get_account(db, account_id)
 
-    # Check for linked transactions before deleting
+    # Check for linked transactions before deleting. Transfers reference accounts
+    # from both the source and destination columns.
     from app.models.transaction import Transaction
 
     result = await db.execute(
-        select(Transaction.id).where(Transaction.account_id == account_id).limit(1)
+        select(Transaction.id)
+        .where(
+            or_(
+                Transaction.account_id == account_id,
+                Transaction.transfer_to_account_id == account_id,
+            )
+        )
+        .limit(1)
     )
     if result.first():
         raise HTTPException(

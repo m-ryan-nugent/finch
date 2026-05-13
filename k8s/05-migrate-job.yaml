@@ -16,7 +16,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: migrate
-          image: ghcr.io/m-ryan-nugent/finch-backend:v0.1.5
+          image: ghcr.io/m-ryan-nugent/finch-backend:v0.1.6
           command: ["uv", "run", "alembic", "upgrade", "head"]
           env:
             - name: POSTGRES_HOST
